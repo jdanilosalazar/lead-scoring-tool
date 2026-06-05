@@ -65,6 +65,15 @@ function fmtDate(s: string | null): string {
   return isNaN(d.getTime()) ? s : d.toLocaleDateString("es-ES", { month: "short", year: "numeric", timeZone: "UTC" });
 }
 
+const BAND_ORDER = ["<5k", "5k-10k", "10k-20k", "20k-40k", "40k-60k", "60k-100k", "100k-200k", ">200k"];
+
+function bandHighlight(band: string): "positive" | "negative" | "neutral" {
+  const idx = BAND_ORDER.indexOf(band);
+  if (idx <= 1) return "negative";   // <5k, 5k-10k
+  if (idx <= 2) return "neutral";    // 10k-20k
+  return "positive";                  // 20k+
+}
+
 const VOLATILITY_LABEL: Record<string, string> = {
   stable:   "Estable",
   moderate: "Moderada",
@@ -123,7 +132,7 @@ export function StoreOverview({
       <h2 className="text-lg font-semibold">Resumen de la Tienda</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         <MetricCard label="Visitas Ponderadas" value={fmt(visitas_ponderadas)} mono />
-        <MetricCard label="Banda de Tráfico" value={traffic_band} mono />
+        <MetricCard label="Banda de Tráfico" value={traffic_band} mono highlight={bandHighlight(traffic_band)} />
         <MetricCard
           label="Volatilidad Tráfico"
           value={traffic_volatility ? (VOLATILITY_LABEL[traffic_volatility] ?? traffic_volatility) : "—"}
