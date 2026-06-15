@@ -1,5 +1,7 @@
 # Probance Lead Scoring Tool — Frontend
 
+**Live tool:** https://leadscoringtool.lovable.app/
+
 React + TypeScript frontend for the Probance Lead Scoring Tool. Takes a store URL, calls an n8n webhook that runs the normalization and scoring pipeline, and displays the full scored lead report for the SDR team.
 
 Built with Vite, React, TypeScript, shadcn-ui, and Tailwind CSS.
