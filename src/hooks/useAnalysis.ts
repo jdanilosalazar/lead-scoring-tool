@@ -14,9 +14,10 @@ export function useAnalysis() {
     setState({ status: "loading" });
     try {
       const params = new URLSearchParams({ url });
-      const response = await fetch(
-        `https://n8n.jdanilosalazar.lat/webhook/0eeb2579-6cc3-4c27-80d1-1f5a2b23eb75?${params}`
-      );
+      const webhookUrl =
+        import.meta.env.VITE_WEBHOOK_URL ??
+        "https://n8n.jdanilosalazar.lat/webhook/0eeb2579-6cc3-4c27-80d1-1f5a2b23eb75";
+      const response = await fetch(`${webhookUrl}?${params}`);
       if (!response.ok) throw new Error(`El análisis falló (estado ${response.status})`);
 
       const text = await response.text();
